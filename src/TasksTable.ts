@@ -4,6 +4,7 @@ import { dateInInterval, formatDate } from './datesHelper';
 export class TasksTable {
   constructor() {
     const wrapper = document.querySelector('.wrapper') as HTMLDivElement;
+
     wrapper.innerHTML = `
       <div class="tasks-table">
         <div class="tasks-table__header">
@@ -20,7 +21,7 @@ export class TasksTable {
     `;
   }
 
-  updateRows = (users: IUser[], tasks: ITask[], days: Date[]) => {
+  update = (users: IUser[], tasks: ITask[], days: Date[]) => {
     const tableBody = document.querySelector(
       '.tasks-table__body'
     ) as HTMLDivElement;
