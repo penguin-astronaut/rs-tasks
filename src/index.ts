@@ -20,11 +20,23 @@ async function run() {
       backlogTasks.push(tasks[i]);
     }
   }
-
   const taskTable = new TasksTable();
   const taskBacklog = new TasksBacklog();
   taskTable.update(users, userTasks, days);
+
   taskBacklog.update(backlogTasks);
+  taskBacklog.onInput((e) => {
+    const input = e.target as HTMLInputElement;
+    const inputValue = input.value.toLowerCase();
+
+    const backlogTasksFiltered = backlogTasks.filter(
+      (task) =>
+        task.subject.toLowerCase().includes(inputValue) ||
+        task.description.toLowerCase().includes(inputValue)
+    );
+
+    taskBacklog.update(backlogTasksFiltered);
+  });
 }
 
 run();

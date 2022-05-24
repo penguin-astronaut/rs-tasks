@@ -25,6 +25,8 @@ export class TasksBacklog {
       '.backlog-tasks'
     ) as HTMLUListElement;
 
+    tasksList.innerHTML = '';
+
     tasks.forEach((task) => {
       const liElem = document.createElement('li');
       liElem.classList.add('backlog-tasks__item');
@@ -44,5 +46,12 @@ export class TasksBacklog {
       liElem.append(taskElem);
       tasksList.append(liElem);
     });
+  }
+
+  onInput(cb: (e: Event) => void) {
+    const input = document.querySelector(
+      '.backlog__search'
+    ) as HTMLInputElement;
+    input.addEventListener('input', cb);
   }
 }
