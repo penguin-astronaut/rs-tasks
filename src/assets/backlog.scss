@@ -1,0 +1,40 @@
+.backlog {
+  padding: 10px;
+  background: #90A4AE;
+
+  &__title {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  &__search {
+    width: 100%;
+    padding: 3px;
+    margin-bottom: 20px;
+  }
+
+  &-tasks {
+    list-style: none;
+    &__item {
+      margin-bottom: 7px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &-task {
+    padding: 10px;
+    background: #E0E0E0;
+
+    &__title {
+      margin-bottom: 4px;
+      color: #4527A0;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    &__text {
+      font-size: 14px;
+    }
+  }
+}
