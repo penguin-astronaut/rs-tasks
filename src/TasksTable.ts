@@ -37,12 +37,15 @@ export class TasksTable {
     users.forEach((user) => {
       const rowHeadCell = document.createElement('div');
       rowHeadCell.classList.add('tasks-table__cell', 'tasks-table__cell--head');
+      rowHeadCell.dataset.userId = user.id.toString();
       rowHeadCell.innerHTML = `${user.surname} ${user.firstName}`;
       tableBody.append(rowHeadCell);
 
       days.forEach((day) => {
         const rowCell = document.createElement('div');
         rowCell.classList.add('tasks-table__cell');
+        rowCell.dataset.userId = user.id.toString();
+        rowCell.dataset.date = day.toISOString();
 
         const dayTasks = tasks.filter((task) => {
           const intervalStart = new Date(task.planStartDate);
@@ -76,5 +79,30 @@ export class TasksTable {
     document
       .querySelector('.tasks-table__button--prev')
       ?.addEventListener('click', cb);
+  }
+
+  onDropListeners(cb: (taskId: string, userId: number, date?: string) => void) {
+    const tableBody = document.querySelector(
+      '.tasks-table__body'
+    ) as HTMLDivElement;
+
+    tableBody.addEventListener('dragover', (e) => {
+      e.preventDefault();
+    });
+
+    tableBody.addEventListener('drop', (e) => {
+      e.preventDefault();
+      const cell = (e.target as HTMLHtmlElement).closest(
+        '.tasks-table__cell'
+      ) as HTMLDivElement;
+      if (!cell) {
+        return;
+      }
+
+      const taskId = e.dataTransfer?.getData('Text') || '';
+      const { userId, date } = cell.dataset;
+
+      cb(taskId, Number(userId), date);
+    });
   }
 }

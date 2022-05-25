@@ -1,6 +1,6 @@
 import './assets/style.scss';
 import { TasksApi } from './TasksApi';
-import { getWeekDays } from './datesHelper';
+import { getDateEnd, getWeekDays } from './datesHelper';
 import { TasksTable } from './TasksTable';
 import { TasksBacklog } from './TasksBacklog';
 import { ITask } from './types';
@@ -35,6 +35,24 @@ async function run() {
     const nextDays = getWeekDays(curFirstDayOfWeek, 'next');
     taskTable.update(users, userTasks, nextDays);
     curFirstDayOfWeek = nextDays[0].toString();
+  });
+  taskTable.onDropListeners((taskId, userId, date) => {
+    const index = backlogTasks.findIndex((task) => taskId === task.id);
+    const task = backlogTasks[index];
+
+    backlogTasks.splice(index, 1);
+
+    task.executor = userId;
+
+    if (date) {
+      task.planStartDate = date;
+      task.planEndDate = getDateEnd(task.planStartDate, task.planEndDate, date);
+    }
+
+    userTasks.push(task);
+
+    taskBacklog.update(backlogTasks);
+    taskTable.update(users, userTasks, days);
   });
 
   taskBacklog.update(backlogTasks);

@@ -18,6 +18,8 @@ export class TasksBacklog {
      </div>
     `
     );
+
+    this.onDragListeners();
   }
 
   update(tasks: ITask[]) {
@@ -30,6 +32,8 @@ export class TasksBacklog {
     tasks.forEach((task) => {
       const liElem = document.createElement('li');
       liElem.classList.add('backlog-tasks__item');
+      liElem.setAttribute('draggable', 'true');
+      liElem.dataset.taskId = task.id;
 
       const taskElem = document.createElement('div');
       taskElem.classList.add('backlog-task');
@@ -53,5 +57,23 @@ export class TasksBacklog {
       '.backlog__search'
     ) as HTMLInputElement;
     input.addEventListener('input', cb);
+  }
+
+  private onDragListeners() {
+    const tasksList = document.querySelector(
+      '.backlog-tasks'
+    ) as HTMLUListElement;
+
+    tasksList.addEventListener('dragstart', (e) => {
+      const target = e.target as HTMLLIElement;
+      target.classList.add('backlog-tasks__item--selected');
+
+      e.dataTransfer?.setData('Text', target.dataset.taskId || '');
+    });
+
+    tasksList.addEventListener('dragend', (e) => {
+      const target = e.target as HTMLLIElement;
+      target.classList.remove('backlog-tasks__item--selected');
+    });
   }
 }

@@ -29,11 +29,22 @@ export function dateInInterval(
   date: Date,
   intervalStart: Date,
   intervalEnd: Date
-) {
+): boolean {
   return (
     intervalStart.toISOString().substring(0, 10) <=
       date.toISOString().substring(0, 10) &&
     date.toISOString().substring(0, 10) <=
       intervalEnd.toISOString().substring(0, 10)
   );
+}
+
+export function getDateEnd(
+  oldStartDate: string,
+  oldEndDate: string,
+  newStartDate: string
+): string {
+  const dateDiff =
+    new Date(oldEndDate).getTime() - new Date(oldStartDate).getTime();
+
+  return new Date(new Date(newStartDate).getTime() + dateDiff).toISOString();
 }

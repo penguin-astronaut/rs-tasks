@@ -50,12 +50,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 50%;
     width: 100%;
+    padding: 5px;
     flex-grow: 1;
     color: #fff;
     border-bottom: 1px solid #B0BEC5;
     background-color: #66BB6A;
+    text-align: center;
   }
 
   &__button {

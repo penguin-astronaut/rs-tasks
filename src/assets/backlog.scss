@@ -16,17 +16,20 @@
   &-tasks {
     list-style: none;
     &__item {
+      padding: 10px;
+      background: #E0E0E0;
       margin-bottom: 7px;
       &:last-child {
         margin-bottom: 0;
+      }
+
+      &--selected {
+        background-color: #81C784;
       }
     }
   }
 
   &-task {
-    padding: 10px;
-    background: #E0E0E0;
-
     &__title {
       margin-bottom: 4px;
       color: #4527A0;
