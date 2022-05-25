@@ -1,7 +1,9 @@
 .backlog {
   padding: 10px;
   background: #90A4AE;
-
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
   &__title {
     text-align: center;
     margin-bottom: 10px;
@@ -35,9 +37,15 @@
       color: #4527A0;
       font-size: 16px;
       font-weight: 700;
+      @media screen and (max-width: 1000px) {
+        font-size: 14px;
+      }
     }
     &__text {
       font-size: 14px;
+      @media screen and (max-width: 1000px) {
+        font-size: 12px;
+      }
     }
   }
 }
