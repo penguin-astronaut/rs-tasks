@@ -61,6 +61,13 @@ export class TasksTable {
           const taskContainer = document.createElement('div');
           taskContainer.classList.add('tasks-table__task');
           taskContainer.innerHTML = task.subject;
+
+          const tooltip = document.createElement('div');
+          tooltip.classList.add('tasks-table__task-tooltip');
+          tooltip.innerHTML = task.subject;
+
+          taskContainer.append(tooltip);
+
           rowCell.append(taskContainer);
         });
 
