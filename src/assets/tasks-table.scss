@@ -31,6 +31,11 @@
     &:last-child {
       border-right: $border;
     }
+
+    @media screen and (max-width: 700px) {
+      font-size: 11px;
+      padding: 0 3px;
+    }
   }
 
   &__cell {
