@@ -3,17 +3,26 @@ export function formatDate(date: Date): string {
   return `${date.getDate()}.${date.getMonth()}.${year}`;
 }
 
-export function getWeekDays(): Date[] {
-  const curr = new Date();
-  const week = [];
+export function getWeekDays(
+  date = '',
+  week: 'current' | 'next' | 'previous' = 'current'
+): Date[] {
+  const curr = date ? new Date(date) : new Date();
+  const days = [];
+
+  if (week === 'next') {
+    curr.setDate(curr.getDate() + 7);
+  } else if (week === 'previous') {
+    curr.setDate(curr.getDate() - 7);
+  }
 
   for (let i = 1; i <= 7; i += 1) {
     const first = curr.getDate() - curr.getDay() + i;
     const day = new Date(curr.setDate(first));
-    week.push(day);
+    days.push(day);
   }
 
-  return week;
+  return days;
 }
 
 export function dateInInterval(

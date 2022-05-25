@@ -10,6 +10,8 @@ async function run() {
   const tasks = await TasksApi.getTasks();
   const days = getWeekDays();
 
+  let curFirstDayOfWeek = days[0].toString();
+
   const userTasks: ITask[] = [];
   const backlogTasks: ITask[] = [];
 
@@ -22,7 +24,18 @@ async function run() {
   }
   const taskTable = new TasksTable();
   const taskBacklog = new TasksBacklog();
+
   taskTable.update(users, userTasks, days);
+  taskTable.onPrevClick(() => {
+    const previousDays = getWeekDays(curFirstDayOfWeek, 'previous');
+    taskTable.update(users, userTasks, previousDays);
+    curFirstDayOfWeek = previousDays[0].toString();
+  });
+  taskTable.onNextClick(() => {
+    const nextDays = getWeekDays(curFirstDayOfWeek, 'next');
+    taskTable.update(users, userTasks, nextDays);
+    curFirstDayOfWeek = nextDays[0].toString();
+  });
 
   taskBacklog.update(backlogTasks);
   taskBacklog.onInput((e) => {

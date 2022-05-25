@@ -65,4 +65,16 @@ export class TasksTable {
       });
     });
   };
+
+  onNextClick(cb: () => void) {
+    document
+      .querySelector('.tasks-table__button--next')
+      ?.addEventListener('click', cb);
+  }
+
+  onPrevClick(cb: () => void) {
+    document
+      .querySelector('.tasks-table__button--prev')
+      ?.addEventListener('click', cb);
+  }
 }
