@@ -36,12 +36,11 @@ async function run() {
     task.executor = userId;
 
     if (date) {
-      task.planStartDate = date;
       task.planEndDate = getDateEnd(task.planStartDate, task.planEndDate, date);
+      task.planStartDate = date;
     }
 
     userTasks.push(task);
-
     taskBacklog.update(filter(backlogTasks, inputValue));
     taskTable.update(users, userTasks, days);
   });

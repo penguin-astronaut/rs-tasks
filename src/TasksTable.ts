@@ -45,7 +45,7 @@ export class TasksTable {
         const rowCell = document.createElement('div');
         rowCell.classList.add('tasks-table__cell');
         rowCell.dataset.userId = user.id.toString();
-        rowCell.dataset.date = day.toISOString();
+        rowCell.dataset.date = day.toISOString().substring(0, 10);
 
         const dayTasks = tasks.filter((task) => {
           const intervalStart = new Date(task.planStartDate);

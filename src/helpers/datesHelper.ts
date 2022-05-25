@@ -45,6 +45,5 @@ export function getDateEnd(
 ): string {
   const dateDiff =
     new Date(oldEndDate).getTime() - new Date(oldStartDate).getTime();
-
   return new Date(new Date(newStartDate).getTime() + dateDiff).toISOString();
 }
