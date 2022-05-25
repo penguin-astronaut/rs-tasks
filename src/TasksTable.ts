@@ -1,5 +1,5 @@
 import { ITask, IUser } from './types';
-import { dateInInterval, formatDate } from './datesHelper';
+import { dateInInterval, formatDate } from './helpers/datesHelper';
 
 export class TasksTable {
   constructor() {

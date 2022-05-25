@@ -1,40 +1,31 @@
-import './assets/style.scss';
 import { TasksApi } from './TasksApi';
-import { getDateEnd, getWeekDays } from './datesHelper';
+import { getDateEnd, getWeekDays } from './helpers/datesHelper';
 import { TasksTable } from './TasksTable';
 import { TasksBacklog } from './TasksBacklog';
-import { ITask } from './types';
+import { filter, splitTasks } from './helpers/tasksHelpers';
+
+import './assets/style.scss';
 
 async function run() {
   const users = await TasksApi.getUsers();
   const tasks = await TasksApi.getTasks();
-  const days = getWeekDays();
 
-  let curFirstDayOfWeek = days[0].toString();
+  const { userTasks, backlogTasks } = splitTasks(tasks);
 
-  const userTasks: ITask[] = [];
-  const backlogTasks: ITask[] = [];
+  let days = getWeekDays();
+  let inputValue = '';
 
-  for (let i = 0; i < tasks.length; i += 1) {
-    if (tasks[i].executor) {
-      userTasks.push(tasks[i]);
-    } else {
-      backlogTasks.push(tasks[i]);
-    }
-  }
   const taskTable = new TasksTable();
   const taskBacklog = new TasksBacklog();
 
   taskTable.update(users, userTasks, days);
   taskTable.onPrevClick(() => {
-    const previousDays = getWeekDays(curFirstDayOfWeek, 'previous');
-    taskTable.update(users, userTasks, previousDays);
-    curFirstDayOfWeek = previousDays[0].toString();
+    days = getWeekDays(days[0].toString(), 'previous');
+    taskTable.update(users, userTasks, days);
   });
   taskTable.onNextClick(() => {
-    const nextDays = getWeekDays(curFirstDayOfWeek, 'next');
-    taskTable.update(users, userTasks, nextDays);
-    curFirstDayOfWeek = nextDays[0].toString();
+    days = getWeekDays(days[0].toString(), 'next');
+    taskTable.update(users, userTasks, days);
   });
   taskTable.onDropListeners((taskId, userId, date) => {
     const index = backlogTasks.findIndex((task) => taskId === task.id);
@@ -51,22 +42,15 @@ async function run() {
 
     userTasks.push(task);
 
-    taskBacklog.update(backlogTasks);
+    taskBacklog.update(filter(backlogTasks, inputValue));
     taskTable.update(users, userTasks, days);
   });
 
-  taskBacklog.update(backlogTasks);
+  taskBacklog.update(filter(backlogTasks, inputValue));
   taskBacklog.onInput((e) => {
     const input = e.target as HTMLInputElement;
-    const inputValue = input.value.toLowerCase();
-
-    const backlogTasksFiltered = backlogTasks.filter(
-      (task) =>
-        task.subject.toLowerCase().includes(inputValue) ||
-        task.description.toLowerCase().includes(inputValue)
-    );
-
-    taskBacklog.update(backlogTasksFiltered);
+    inputValue = input.value.toLowerCase();
+    taskBacklog.update(filter(backlogTasks, inputValue));
   });
 }
 

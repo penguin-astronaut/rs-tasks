@@ -1,6 +1,6 @@
 export function formatDate(date: Date): string {
   const year = date.getFullYear().toString().slice(-2);
-  return `${date.getDate()}.${date.getMonth()}.${year}`;
+  return `${date.getDate()}.${date.getMonth() + 1}.${year}`;
 }
 
 export function getWeekDays(
