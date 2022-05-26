@@ -51,10 +51,7 @@ export class TasksTable {
           const intervalStart = new Date(task.planStartDate);
           const intervalEnd = new Date(task.planEndDate);
 
-          return (
-            task.executor === user.id &&
-            dateInInterval(day, intervalStart, intervalEnd)
-          );
+          return dateInInterval(day, intervalStart, intervalEnd);
         });
 
         dayTasks?.forEach((task) => {
