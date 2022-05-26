@@ -1,11 +1,3 @@
-export interface IUser {
-  id: number;
-  username: string;
-  surname: string;
-  firstName: string;
-  secondName: string;
-}
-
 export interface ITask {
   id: string;
   subject: string;
@@ -18,4 +10,13 @@ export interface ITask {
   endDate: string;
   status: number;
   order: number;
+}
+
+export interface IUser {
+  id: number;
+  username: string;
+  surname: string;
+  firstName: string;
+  secondName: string;
+  tasks?: ITask[];
 }

@@ -1,4 +1,4 @@
-import { ITask, IUser } from './types';
+import { IUser } from './types';
 import { dateInInterval, formatDate } from './helpers/datesHelper';
 
 export class TasksTable {
@@ -21,7 +21,7 @@ export class TasksTable {
     `;
   }
 
-  update = (users: IUser[], tasks: ITask[], days: Date[]) => {
+  update = (users: IUser[], days: Date[]) => {
     const tableBody = document.querySelector(
       '.tasks-table__body'
     ) as HTMLDivElement;
@@ -47,7 +47,7 @@ export class TasksTable {
         rowCell.dataset.userId = user.id.toString();
         rowCell.dataset.date = day.toISOString().substring(0, 10);
 
-        const dayTasks = tasks.filter((task) => {
+        const dayTasks = user.tasks?.filter((task) => {
           const intervalStart = new Date(task.planStartDate);
           const intervalEnd = new Date(task.planEndDate);
 
@@ -57,7 +57,7 @@ export class TasksTable {
           );
         });
 
-        dayTasks.forEach((task) => {
+        dayTasks?.forEach((task) => {
           const taskContainer = document.createElement('div');
           taskContainer.classList.add('tasks-table__task');
           taskContainer.innerHTML = task.subject;

@@ -17,6 +17,7 @@ module.exports = {
   rules: {
     'import/prefer-default-export': 'off',
     'class-methods-use-this': 'off',
+    'no-param-reassign': 'off',
     'import/no-unresolved': 'off', // https://github.com/typescript-eslint/typescript-eslint/issues/1624
     'import/extensions': ['warn', 'never'], // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/extensions.md
   },

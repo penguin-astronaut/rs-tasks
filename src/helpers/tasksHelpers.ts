@@ -1,22 +1,36 @@
-import { ITask } from '../types';
+import { ITask, IUser } from '../types';
 
-type SplitTasks = {
-  userTasks: ITask[];
+type JoinTasksToUsers = {
+  usersWithTasks: IUser[];
   backlogTasks: ITask[];
 };
-export function splitTasks(tasks: ITask[]): SplitTasks {
-  const userTasks: ITask[] = [];
+export function joinTasksToUsers(
+  tasks: ITask[],
+  users: IUser[]
+): JoinTasksToUsers {
   const backlogTasks: ITask[] = [];
+  const usersWithTasks = [...users];
+
+  usersWithTasks.map((user) => {
+    user.tasks = [];
+    return user;
+  });
 
   for (let i = 0; i < tasks.length; i += 1) {
     if (tasks[i].executor) {
-      userTasks.push(tasks[i]);
+      const userIndex = usersWithTasks.findIndex(
+        (user) => tasks[i].executor === user.id
+      );
+
+      if (userIndex !== -1) {
+        usersWithTasks[userIndex].tasks?.push(tasks[i]);
+      }
     } else {
       backlogTasks.push(tasks[i]);
     }
   }
 
-  return { userTasks, backlogTasks };
+  return { usersWithTasks, backlogTasks };
 }
 
 export function filter(tasks: ITask[], text: string): ITask[] {
